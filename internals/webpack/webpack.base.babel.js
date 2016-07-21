@@ -20,7 +20,7 @@ module.exports = (options) => ({
     }, {
       // Transform our own .css files with PostCSS and CSS-modules
       test: /\.css$/,
-      exclude: /node_modules/,
+      exclude: /(node_modules|static)/,
       loader: options.cssLoaders,
     }, {
       // Do not transform vendor's CSS with CSS-modules
@@ -31,6 +31,10 @@ module.exports = (options) => ({
       test: /\.css$/,
       include: /node_modules/,
       loaders: ['style-loader', 'css-loader'],
+    }, {
+      test: /\.css$/,
+      include: /static/,
+      loaders: options.staticCssLoaders,
     }, {
       test: /\.(eot|svg|ttf|woff|woff2)$/,
       loader: 'file-loader',
