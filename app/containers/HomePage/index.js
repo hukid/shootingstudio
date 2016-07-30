@@ -10,12 +10,16 @@
  */
 
 import React from 'react';
+import PlanSheet from 'containers/PlanSheet';
 
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   render() {
     return (
-      <h1 className="btn btn-default">This is the Homepage!</h1>
+      <div>
+        <h1>This is the Homepage!</h1>
+        <PlanSheet />
+      </div>
     );
   }
 }

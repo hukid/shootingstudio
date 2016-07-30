@@ -3,6 +3,7 @@
 // See http://blog.mxstbr.com/2016/01/react-apps-with-pages for more information
 // about the code splitting business
 // import { getHooks } from 'utils/hooks';
+import { getHooks } from './utils/hooks';
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
@@ -12,9 +13,9 @@ const loadModule = (cb) => (componentModule) => {
   cb(null, componentModule.default);
 };
 
-export default function createRoutes() {
+export default function createRoutes(store) {
   // Create reusable async injectors using getHooks factory
-  // const { injectReducer, injectSagas } = getHooks(store);
+  const { injectReducer, injectSagas } = getHooks(store);
 
   return [
     {
@@ -22,12 +23,18 @@ export default function createRoutes() {
       name: 'home',
       getComponent(nextState, cb) {
         const importModules = Promise.all([
+          System.import('containers/PlanSheet/reducer'),
+          System.import('containers/PlanSheet/sagas'),
           System.import('containers/HomePage'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([component]) => {
+        importModules.then(([reducer, sagas, component]) => {
+          // planSheet has to be exactly same as defined in PlanSheet/reducer
+          injectReducer('planSheet', reducer.default);
+          injectSagas(sagas.default);
+
           renderRoute(component);
         });
 
