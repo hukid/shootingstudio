@@ -19,7 +19,19 @@ const selectPlanSheet = () => createSelector(
   (substate) => substate.toJS()
 );
 
-export default selectPlanSheet;
+const selectScenes = () => createSelector(
+  selectPlanSheetDomain(),
+  (planSheet) => planSheet.get('scenes').toJS()
+);
+
+const selectName = () => createSelector(
+  selectPlanSheetDomain(),
+  (planSheet) => planSheet.get('name')
+);
+
 export {
   selectPlanSheetDomain,
+  selectPlanSheet,
+  selectScenes,
+  selectName,
 };

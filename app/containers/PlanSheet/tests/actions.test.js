@@ -1,3 +1,5 @@
+/*
+
 import expect from 'expect';
 import {
   defaultAction,
@@ -16,3 +18,5 @@ describe('PlanSheet actions', () => {
     });
   });
 });
+
+*/

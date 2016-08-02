@@ -1,9 +1,11 @@
-/* import PlanSheet from '../index';
+/*
+import ActorList from '../index';
 
 import expect from 'expect';
 import { shallow } from 'enzyme';
 import React from 'react';
 
-describe('<PlanSheet />', () => {
+describe('<ActorList />', () => {
 
-}); */
+});
+*/

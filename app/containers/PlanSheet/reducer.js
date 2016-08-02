@@ -10,7 +10,31 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  planSheet: '',
+  name: 'MyFirstProject',
+  scenes: [
+    {
+      seq: 1,
+      stage: 'Church',
+      environment: 'day',
+      actors: [
+        { name: 'Xiaomei' },
+        { name: 'Dachui' },
+      ] },
+    {
+      seq: 2,
+      stage: 'Home',
+      environment: 'night',
+      actors: [
+        { name: 'Xiaomei' },
+      ] },
+    {
+      seq: 3,
+      stage: 'Home',
+      environment: 'day',
+      actors: [
+        { name: 'Fei Hong' },
+      ] },
+  ],
 });
 
 function planSheetReducer(state = initialState, action) {
@@ -23,3 +47,31 @@ function planSheetReducer(state = initialState, action) {
 }
 
 export default planSheetReducer;
+
+  // {
+  //   // scenes: [
+  //   //   {
+  //   //     seq: 1,
+  //   //     stage: 'Church',
+  //   //     environment: 'day',
+  //   //     actors: [
+  //   //       { name: 'Xiaomei' },
+  //   //       { name: 'Dachui' },
+  //   //   ]},
+  //   //   {
+  //   //     seq: 2,
+  //   //     stage: 'Home',
+  //   //     environment: 'night',
+  //   //     actors: [
+  //   //       { name: 'Xiaomei' },
+  //   //   ]},
+  //   //   {
+  //   //     seq: 3,
+  //   //     stage: 'Home',
+  //   //     environment: 'day',
+  //   //     actors: [
+  //   //       { name: 'Fei Hong' },
+  //   //   ]},
+  //   // ],
+  //   test : 'test',
+  // },
