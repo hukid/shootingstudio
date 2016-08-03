@@ -6,72 +6,24 @@
 
 import { fromJS } from 'immutable';
 import {
-  DEFAULT_ACTION,
+  LOAD_PLANSHEET,
+  PLANSHEET_LOADED,
 } from './constants';
 
 const initialState = fromJS({
   name: 'MyFirstProject',
-  scenes: [
-    {
-      seq: 1,
-      stage: 'Church',
-      environment: 'day',
-      actors: [
-        { name: 'Xiaomei' },
-        { name: 'Dachui' },
-      ] },
-    {
-      seq: 2,
-      stage: 'Home',
-      environment: 'night',
-      actors: [
-        { name: 'Xiaomei' },
-      ] },
-    {
-      seq: 3,
-      stage: 'Home',
-      environment: 'day',
-      actors: [
-        { name: 'Fei Hong' },
-      ] },
-  ],
+  scenes: [],
 });
 
 function planSheetReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
+    case LOAD_PLANSHEET:
+      return state.set('scenes', fromJS([]));
+    case PLANSHEET_LOADED:
+      return state.set('scenes', fromJS(action.scenes));
     default:
       return state;
   }
 }
 
 export default planSheetReducer;
-
-  // {
-  //   // scenes: [
-  //   //   {
-  //   //     seq: 1,
-  //   //     stage: 'Church',
-  //   //     environment: 'day',
-  //   //     actors: [
-  //   //       { name: 'Xiaomei' },
-  //   //       { name: 'Dachui' },
-  //   //   ]},
-  //   //   {
-  //   //     seq: 2,
-  //   //     stage: 'Home',
-  //   //     environment: 'night',
-  //   //     actors: [
-  //   //       { name: 'Xiaomei' },
-  //   //   ]},
-  //   //   {
-  //   //     seq: 3,
-  //   //     stage: 'Home',
-  //   //     environment: 'day',
-  //   //     actors: [
-  //   //       { name: 'Fei Hong' },
-  //   //   ]},
-  //   // ],
-  //   test : 'test',
-  // },

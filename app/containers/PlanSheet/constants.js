@@ -4,4 +4,5 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/PlanSheet/DEFAULT_ACTION';
+export const LOAD_PLANSHEET = 'app/PlanSheet/LOAD_PLANSHEET';
+export const PLANSHEET_LOADED = 'app/PlanSheet/PLANSHEET_LOADED';

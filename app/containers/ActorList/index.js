@@ -13,7 +13,7 @@ export class ActorList extends React.Component { // eslint-disable-line react/pr
     window.globalactors = actors;
     let actorContent = '';
     actors.forEach((actor) => {
-      actorContent = actorContent + actor.name + ";";
+      actorContent = `${actorContent}${actor.name};`;
     });
 
     return (

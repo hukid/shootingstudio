@@ -21,7 +21,7 @@ const selectPlanSheet = () => createSelector(
 
 const selectScenes = () => createSelector(
   selectPlanSheetDomain(),
-  (planSheet) => planSheet.get('scenes').toJS()
+  (planSheet) => (planSheet.get('scenes').toJS ? planSheet.get('scenes').toJS() : planSheet.get('scenes'))
 );
 
 const selectName = () => createSelector(

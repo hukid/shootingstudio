@@ -6,11 +6,17 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { loadPlanSheet } from './actions';
 import { selectName, selectScenes } from './selectors';
 import { createSelector } from 'reselect';
 import { ActorList } from 'containers/ActorList';
 
 export class PlanSheet extends React.Component { // eslint-disable-line react/prefer-stateless-function
+
+  componentDidMount() {
+    this.props.load();
+  }
+
   render() {
     let sheetRows = (<div className="row">empty</div>);
     if (this.props.scenes) {
@@ -26,6 +32,7 @@ export class PlanSheet extends React.Component { // eslint-disable-line react/pr
 
     return (
       <div className="container">
+        <div className="btn" onClick={this.props.load}>Refresh</div>
         <div className="row">
           <div className="col-md-3">场次</div>
           <div className="col-md-3">场景</div>
@@ -41,6 +48,7 @@ export class PlanSheet extends React.Component { // eslint-disable-line react/pr
 PlanSheet.propTypes = {
   scenes: React.PropTypes.array,
   name: React.PropTypes.string.isRequired,
+  load: React.PropTypes.func,
 };
 
 const mapStateToProps = createSelector(
@@ -51,6 +59,7 @@ const mapStateToProps = createSelector(
 
 function mapDispatchToProps(dispatch) {
   return {
+    load: () => dispatch(loadPlanSheet()),
     dispatch,
   };
 }
