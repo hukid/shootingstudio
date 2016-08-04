@@ -20,6 +20,7 @@ function planSheetReducer(state = initialState, action) {
     case LOAD_PLANSHEET:
       return state.set('scenes', fromJS([]));
     case PLANSHEET_LOADED:
+      console.log(JSON.stringify(action.scenes));
       return state.set('scenes', fromJS(action.scenes));
     default:
       return state;

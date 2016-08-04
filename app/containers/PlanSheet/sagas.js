@@ -21,7 +21,7 @@ export function* planSheetSaga() {
     if (watcher.loadplanSheet) {
       console.log('planSheetSaga take LOAD_PLANSHEET'); // eslint-disable-line no-console
 
-      const requestURL = 'api/plansheet';
+      const requestURL = 'api/plansheetdb';
       const scenes = yield call(request, requestURL);
 
       if (scenes.data) {
