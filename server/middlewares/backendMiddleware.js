@@ -1,7 +1,6 @@
 /* eslint-disable global-require */
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongo = require('mongodb');
 const monk = require('monk');
 const db = monk('localhost:27017/shootingstudio');
 
@@ -19,7 +18,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/initPlanSheet', (req, res) => {
-  let scenes = [{
+  const scenes = [{
     seq: 1,
     stage: 'Church',
     environment: 'day',
@@ -51,18 +50,18 @@ router.get('/initPlanSheet', (req, res) => {
   },
   ];
 
-  let collection = db.get('scenesCollection');
+  const collection = db.get('scenesCollection');
 
   collection.drop(() => {
     collection.insert(scenes);
     res.json({ message: 'you hit the api' });
-  })
+  });
 });
 
 router.get('/plansheetdb', (req, res) => {
-  let collection = db.get('scenesCollection');
-  collection.find({}, '-_id', function(e,scenes){
-        res.json(scenes);
+  const collection = db.get('scenesCollection');
+  collection.find({}, '-_id', (e, scenes) => {
+    res.json(scenes);
   });
 });
 
