@@ -16,6 +16,10 @@ export class SceneComposeForm extends React.Component { // eslint-disable-line r
       environment: '',
       actors: '',
     };
+
+    this.handleChangeStage = this.handleChangeStage.bind(this);
+    this.handleChangeEnvironment = this.handleChangeEnvironment.bind(this);
+    this.handleChangeActors = this.handleChangeActors.bind(this);
   }
 
   handleChangeStage(event) {
