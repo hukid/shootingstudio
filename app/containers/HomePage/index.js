@@ -11,6 +11,7 @@
 
 import React from 'react';
 import PlanSheet from 'containers/PlanSheet';
+import SceneComposeForm from 'containers/SceneComposeForm';
 
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -19,6 +20,7 @@ export default class HomePage extends React.Component { // eslint-disable-line r
       <div>
         <h1>This is the Homepage!</h1>
         <PlanSheet />
+        <SceneComposeForm />
       </div>
     );
   }
