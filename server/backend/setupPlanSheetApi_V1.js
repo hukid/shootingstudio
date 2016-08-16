@@ -2,7 +2,7 @@
  * setupPlanSheetApi_V1.js
  *
  * Define all the PlanSheet api here
- * 
+ *
  */
 
 const mongoose = require('mongoose');
@@ -11,6 +11,7 @@ const PlanSheet = require('./models/planSheet');
 const Scene = require('./models/scene');
 
 module.exports = (router) => {
+  mongoose.Promise = global.Promise;
   mongoose.connect('mongodb://localhost:27017/shootingstudio');
 
   router.get('/initProject', (req, res) => {
@@ -20,15 +21,15 @@ module.exports = (router) => {
     const planSheet = new PlanSheet();
 
     // define all the actors
-    const actorXiaoMei = { id: mongoose.Types.ObjectId(), name: 'Xiaomei' };
-    const actorDachui = { id: mongoose.Types.ObjectId(), name: '大锤' };
-    const actorFeiHong = { id: mongoose.Types.ObjectId(), name: '黄飞鸿' };
-    const actorShige = { id: mongoose.Types.ObjectId(), name: '诗歌' };
+    const actorXiaoMei = { _id: 0, id: mongoose.Types.ObjectId(), name: 'Xiaomei' }; // eslint-disable-line new-cap
+    const actorDachui = { _id: 0, id: mongoose.Types.ObjectId(), name: '大锤' }; // eslint-disable-line new-cap
+    const actorFeiHong = { _id: 0, id: mongoose.Types.ObjectId(), name: '黄飞鸿' }; // eslint-disable-line new-cap
+    const actorShige = { _id: 0, id: mongoose.Types.ObjectId(), name: '诗歌' }; // eslint-disable-line new-cap
 
     // define all the stages
-    const stageChurch = { id: mongoose.Types.ObjectId(), name: 'Church' };
-    const stageHome = { id: mongoose.Types.ObjectId(), name: 'Home' };
-    const stageOffice = { id: mongoose.Types.ObjectId(), name: '办公室' };
+    const stageChurch = { id: mongoose.Types.ObjectId(), name: 'Church' }; // eslint-disable-line new-cap
+    const stageHome = { id: mongoose.Types.ObjectId(), name: 'Home' }; // eslint-disable-line new-cap
+    const stageOffice = { id: mongoose.Types.ObjectId(), name: '办公室' }; // eslint-disable-line new-cap
 
     let scene = new Scene();
     scene.seq = 1;
@@ -63,7 +64,7 @@ module.exports = (router) => {
     scene.actors.push(actorDachui);
     planSheet.scenes.push(scene);
 
-    project.planSheet.push(planSheet);
+    project.planSheets.push(planSheet);
 
     project.save((err) => {
       if (err) {
@@ -71,28 +72,50 @@ module.exports = (router) => {
       }
 
       res.json({ message: 'Project added to the locker!', data: project });
-    })
+    });
   });
 
-  router.get('/project', (req, res) => {
-    Project.find((err, projects) => {
+  router.get('/clearProject', (req, res) => {
+    Project.remove({}, (err) => {
+      if (err) { res.send(err); }
+      res.json({ message: 'project is cleared.' });
+    });
+  });
+
+  router.get('/projects', (req, res) => {
+    Project.find((err, projects) => { // eslint-disable-line array-callback-return
       if (err) {
         res.send(err);
       }
 
-      let selectedProject = { message: 'no project found.'};
-      if (projects.length > 0)
-      {
-         selectedProject = projects[0];
+      let allProjects = { message: 'no project found.' };
+      if (projects.length > 0) {
+        allProjects = projects;
       }
-      res.json(selectedProject);
-    })
+
+      res.json(allProjects);
+    });
   });
 
-  router.get('/plansheetdbV1', (req, res) => {
+  router.get('/project', (req, res) => {
     // currently, there is only one entry in the Project collection
-    let query = Project.findOne();
-    query.select('planSheet');
+    Project.findOne((err, project) => {
+      if (err) {
+        res.send(err);
+      }
+
+      if (project) {
+        res.json(project);
+      } else {
+        res.json({ message: 'no project found' });
+      }
+    });
+  });
+
+  router.get('/plansheet', (req, res) => {
+    // currently, there is only one entry in the Project collection
+    const query = Project.findOne();
+    query.select({ planSheets: { $slice: 1 } });
 
     query.exec((err, project) => {
       if (err) {
@@ -100,8 +123,8 @@ module.exports = (router) => {
       }
 
       let selectedPlanSheet = { message: 'no planSheet found' };
-      if (project.planSheet.length > 0) {
-        selectedPlanSheet = project.planSheet[0];
+      if (project && project.planSheets.length > 0) {
+        selectedPlanSheet = project.planSheets[0];
       }
 
       res.json(selectedPlanSheet);

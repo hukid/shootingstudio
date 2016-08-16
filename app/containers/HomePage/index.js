@@ -10,18 +10,46 @@
  */
 
 import React from 'react';
+import { connect } from 'react-redux';
+import { loadProject } from 'containers/App/actions';
+import { selectProjectId } from 'containers/App/selectors';
+import { createSelector } from 'reselect';
 import PlanSheet from 'containers/PlanSheet';
 import SceneComposeForm from 'containers/SceneComposeForm';
 
-export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+
+  componentDidMount() {
+    this.props.load();
+  }
 
   render() {
+    window.globalProps = this.props;
     return (
       <div>
         <h1>This is the Homepage!</h1>
+        <div className="btn" onClick={this.props.load}>Refresh</div>
         <PlanSheet />
         <SceneComposeForm />
       </div>
     );
   }
 }
+
+HomePage.propTypes = {
+  load: React.PropTypes.func,
+};
+
+const mapStateToProps = createSelector(
+  selectProjectId,
+  (name) => ({ name })
+);
+
+function mapDispatchToProps(dispatch) {
+  return {
+    load: () => dispatch(loadProject()),
+    dispatch,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

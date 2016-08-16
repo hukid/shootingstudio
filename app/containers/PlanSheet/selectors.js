@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { selectDefaultPlanSheet } from 'containers/App/selectors';
 
 /**
  * Direct selector to the planSheet state domain
@@ -20,13 +21,21 @@ const selectPlanSheet = () => createSelector(
 );
 
 const selectScenes = () => createSelector(
-  selectPlanSheetDomain(),
-  (planSheet) => (planSheet.get('scenes').toJS ? planSheet.get('scenes').toJS() : planSheet.get('scenes'))
+  // selectPlanSheetDomain(),
+  selectDefaultPlanSheet(),
+  (planSheet) => {
+    if (planSheet) {
+      return (planSheet.get('scenes').toJS ? planSheet.get('scenes').toJS() : planSheet.get('scenes'));
+    }
+
+    return [];
+  }
 );
 
 const selectName = () => createSelector(
-  selectPlanSheetDomain(),
-  (planSheet) => planSheet.get('name')
+  // selectPlanSheetDomain(),
+  selectDefaultPlanSheet(),
+  (planSheet) => (planSheet) ? planSheet.get('name') : '' // eslint-disable-line no-confusing-arrow
 );
 
 export {

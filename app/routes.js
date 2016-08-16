@@ -26,16 +26,18 @@ export default function createRoutes(store) {
           System.import('containers/PlanSheet/reducer'),
           System.import('containers/PlanSheet/sagas'),
           System.import('containers/HomePage'),
+          System.import('containers/HomePage/sagas'),
           // System.import('containers/SceneComposeForm/reducer'),
           // System.import('containers/SceneComposeForm/sagas'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([planSheetReducer, planSheetSagas, component/* , sceneComposeReducer, sceneComposeSagas */]) => {
+        importModules.then(([planSheetReducer, planSheetSagas, component, homePageSagas/* , sceneComposeReducer, sceneComposeSagas */]) => {
           // planSheet has to be exactly same as defined in PlanSheet/reducer
           injectReducer('planSheet', planSheetReducer.default);
           injectSagas(planSheetSagas.default);
+          injectSagas(homePageSagas.default);
 
           // injectReducer('sceneCopmose', sceneComposeReducer.default);
           // injectSagas(sceneComposeSagas.default);

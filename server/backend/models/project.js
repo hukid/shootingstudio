@@ -4,7 +4,7 @@ const planSheetSchema = require('./planSheet').schema;
 
 const ProjectSchema = new mongoose.Schema({
   name: String,
-  planSheet: [planSheetSchema],
+  planSheets: [planSheetSchema],
 });
 
 module.exports = mongoose.model('Project', ProjectSchema);
