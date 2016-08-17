@@ -9,12 +9,15 @@ import request from 'utils/request';
 import { LOAD_PROJECT } from 'containers/App/constants';
 import { projectLoaded } from 'containers/App/actions';
 
+import { ADD_SCENE } from 'containers/SceneComposeForm/constants';
+
 // Individual exports for testing
 export function* projectSaga() {
   console.log('projectSaga started'); // eslint-disable-line no-console
   while (true) { // eslint-disable-line no-constant-condition
     const watcher = yield race({
       loadproject: take(LOAD_PROJECT),
+      addScene: take(ADD_SCENE),
       //stop: take(LOCATION_CHANGE), // stop watching if user leaves page
     });
 
@@ -29,6 +32,10 @@ export function* projectSaga() {
       } else {
         console.error('load data failed.'); // eslint-disable-line no-console
       }
+    }
+
+    if (watcher.addScene) {
+      console.log('projectSaga take ADD_SCENE'); // eslint-disable-line no-console
     }
   }
 }

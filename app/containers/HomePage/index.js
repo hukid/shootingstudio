@@ -17,7 +17,7 @@ import { createSelector } from 'reselect';
 import PlanSheet from 'containers/PlanSheet';
 import SceneComposeForm from 'containers/SceneComposeForm';
 
-export class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   componentDidMount() {
     this.props.load();

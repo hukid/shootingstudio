@@ -10,7 +10,7 @@ import { createSelector } from 'reselect';
 
 import { selectActors } from 'containers/App/selectors';
 
-export class ActorList extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class ActorList extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const actorIds = this.props.actorIds;
     let actorContent = '';

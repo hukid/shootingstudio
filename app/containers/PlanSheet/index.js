@@ -13,7 +13,7 @@ import { selectScenes } from './selectors';
 import { selectStages } from 'containers/App/selectors';
 import ActorList from 'containers/ActorList';
 
-export class PlanSheet extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class PlanSheet extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   render() {
     let sheetRows = (<div className="row">empty</div>);

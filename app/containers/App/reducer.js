@@ -11,7 +11,7 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  _id: '',
+  project_id: '',
   name: '',
   actors: false,
   stages: false,
@@ -22,7 +22,7 @@ function appReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_PROJECT:
       return state
-        .set('_id', '')
+        .set('project_id', '')
         .set('name', '')
         .set('actors', false)
         .set('stages', false)
@@ -30,7 +30,7 @@ function appReducer(state = initialState, action) {
     case PROJECT_LOADED:
       // console.log(JSON.stringify(action.scenes));
       return state
-        .set('_id', action.project._id) // eslint-disable-line no-underscore-dangle
+        .set('project_id', action.project._id) // eslint-disable-line no-underscore-dangle
         .set('name', action.project.name)
         .set('actors', fromJS(action.project.actors))
         .set('stages', fromJS(action.project.stages))

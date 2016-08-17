@@ -13,7 +13,7 @@ const selectProjectName = () => createSelector(
 
 const selectProjectId = () => createSelector(
   selectApp(),
-  (project) => project.get('_id')
+  (project) => project.get('project_id')
 );
 
 const selectPlanSheets = () => createSelector(
@@ -31,7 +31,7 @@ const selectActors = () => createSelector(
         hashedActors[actor._id] = actor; // eslint-disable-line no-underscore-dangle
       });
     }
-    window.hshActors = hashedActors;
+
     return hashedActors;
   }
 );
