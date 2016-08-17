@@ -15,7 +15,7 @@ const loadModule = (cb) => (componentModule) => {
 
 export default function createRoutes(store) {
   // Create reusable async injectors using getHooks factory
-  const { injectReducer, injectSagas } = getHooks(store);
+  const { injectSagas } = getHooks(store);
 
   return [
     {
@@ -23,21 +23,20 @@ export default function createRoutes(store) {
       name: 'home',
       getComponent(nextState, cb) {
         const importModules = Promise.all([
-          System.import('containers/PlanSheet/reducer'),
-          System.import('containers/PlanSheet/sagas'),
           System.import('containers/HomePage'),
           System.import('containers/HomePage/sagas'),
+          System.import('containers/PlanSheet/sagas'),
           // System.import('containers/SceneComposeForm/reducer'),
           // System.import('containers/SceneComposeForm/sagas'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([planSheetReducer, planSheetSagas, component, homePageSagas/* , sceneComposeReducer, sceneComposeSagas */]) => {
+        importModules.then(([component, homePageSagas/* planSheetSagas, sceneComposeReducer, sceneComposeSagas */]) => {
           // planSheet has to be exactly same as defined in PlanSheet/reducer
-          injectReducer('planSheet', planSheetReducer.default);
-          injectSagas(planSheetSagas.default);
           injectSagas(homePageSagas.default);
+
+          // injectSagas(planSheetSagas.default);
 
           // injectReducer('sceneCopmose', sceneComposeReducer.default);
           // injectSagas(sceneComposeSagas.default);

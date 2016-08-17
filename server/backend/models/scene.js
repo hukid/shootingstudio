@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 
 const SceneSchema = new mongoose.Schema({
   seq: Number,
-  stage: { id: Schema.Types.ObjectId, name: String },
+  stage_id: Schema.Types.ObjectId,
   environment: Number,
-  actors: [{ id: Schema.Types.ObjectId, name: String }],
+  actors: [{ _id: Schema.Types.ObjectId }],
 });
 
 module.exports = mongoose.model('Scene', SceneSchema);

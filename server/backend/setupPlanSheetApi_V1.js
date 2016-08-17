@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 const Project = require('./models/project');
 const PlanSheet = require('./models/planSheet');
 const Scene = require('./models/scene');
+const Actor = require('./models/actor');
+const Stage = require('./models/stage');
 
 module.exports = (router) => {
   mongoose.Promise = global.Promise;
@@ -21,47 +23,56 @@ module.exports = (router) => {
     const planSheet = new PlanSheet();
 
     // define all the actors
-    const actorXiaoMei = { _id: 0, id: mongoose.Types.ObjectId(), name: 'Xiaomei' }; // eslint-disable-line new-cap
-    const actorDachui = { _id: 0, id: mongoose.Types.ObjectId(), name: '大锤' }; // eslint-disable-line new-cap
-    const actorFeiHong = { _id: 0, id: mongoose.Types.ObjectId(), name: '黄飞鸿' }; // eslint-disable-line new-cap
-    const actorShige = { _id: 0, id: mongoose.Types.ObjectId(), name: '诗歌' }; // eslint-disable-line new-cap
+    const actorXiaoMei = new Actor({ name: 'Xiaomei' });
+    const actorDachui = new Actor({ name: '大锤' });
+    const actorFeiHong = new Actor({ name: '黄飞鸿' });
+    const actorShige = new Actor({ name: '诗歌' });
+
+    project.actors.push(actorXiaoMei);
+    project.actors.push(actorDachui);
+    project.actors.push(actorFeiHong);
+    project.actors.push(actorShige);
 
     // define all the stages
-    const stageChurch = { id: mongoose.Types.ObjectId(), name: 'Church' }; // eslint-disable-line new-cap
-    const stageHome = { id: mongoose.Types.ObjectId(), name: 'Home' }; // eslint-disable-line new-cap
-    const stageOffice = { id: mongoose.Types.ObjectId(), name: '办公室' }; // eslint-disable-line new-cap
+    const stageChurch = new Stage({ name: 'Church' });
+    const stageHome = new Stage({ name: 'Home' });
+    const stageOffice = new Stage({ name: '办公室' });
+
+    project.stages.push(stageChurch);
+    project.stages.push(stageHome);
+    project.stages.push(stageOffice);
 
     let scene = new Scene();
     scene.seq = 1;
-    scene.stage = stageChurch;
+    scene.stage_id = stageChurch._id; // eslint-disable-line no-underscore-dangle
     scene.environment = 1;
-    scene.actors.push(actorXiaoMei);
-    scene.actors.push(actorDachui);
+    scene.actors.push(actorXiaoMei._id); // eslint-disable-line no-underscore-dangle
+    scene.actors.push(actorDachui._id); // eslint-disable-line no-underscore-dangle
     planSheet.scenes.push(scene);
 
     scene = new Scene();
     scene.seq = 2;
-    scene.stage = stageHome;
+    scene.stage_id = stageHome._id; // eslint-disable-line no-underscore-dangle
     scene.environment = 2;
-    scene.actors.push(actorXiaoMei);
+    scene.actors.push(actorXiaoMei._id); // eslint-disable-line no-underscore-dangle
     planSheet.scenes.push(scene);
 
     scene = new Scene();
     scene.seq = 3;
-    scene.stage = stageHome;
+    scene.stage_id = stageHome._id; // eslint-disable-line no-underscore-dangle
     scene.environment = 1;
-    scene.actors.push(actorFeiHong);
-    scene.actors.push(actorShige);
-    scene.actors.push(actorXiaoMei);
+    scene.actors.push(actorFeiHong._id); // eslint-disable-line no-underscore-dangle
+    scene.actors.push(actorShige._id); // eslint-disable-line no-underscore-dangle
+    scene.actors.push(actorXiaoMei._id); // eslint-disable-line no-underscore-dangle
     planSheet.scenes.push(scene);
 
     scene = new Scene();
     scene.seq = 4;
-    scene.stage = stageOffice;
+    scene.stage_id = stageOffice._id; // eslint-disable-line no-underscore-dangle
     scene.environment = 1;
-    scene.actors.push(actorFeiHong);
-    scene.actors.push(actorShige);
-    scene.actors.push(actorDachui);
+    scene.actors.push(actorFeiHong._id); // eslint-disable-line no-underscore-dangle
+    scene.actors.push(actorShige._id); // eslint-disable-line no-underscore-dangle
+    scene.actors.push(actorDachui._id); // eslint-disable-line no-underscore-dangle
     planSheet.scenes.push(scene);
 
     project.planSheets.push(planSheet);

@@ -21,6 +21,36 @@ const selectPlanSheets = () => createSelector(
   (project) => project.get('planSheets').toJS()
 );
 
+const selectActors = () => createSelector(
+  selectApp(),
+  (project) => {
+    const actors = project.get('actors');
+    const hashedActors = {};
+    if (actors.toJS) {
+      actors.toJS().forEach((actor) => {
+        hashedActors[actor._id] = actor; // eslint-disable-line no-underscore-dangle
+      });
+    }
+    window.hshActors = hashedActors;
+    return hashedActors;
+  }
+);
+
+const selectStages = () => createSelector(
+  selectApp(),
+  (project) => {
+    const stages = project.get('stages');
+    const hashedStages = {};
+    if (stages.toJS) {
+      stages.toJS().forEach((stage) => {
+        hashedStages[stage._id] = stage; // eslint-disable-line no-underscore-dangle
+      });
+    }
+
+    return hashedStages;
+  }
+);
+
 const selectDefaultPlanSheet = () => createSelector(
   selectApp(),
   (project) => project.getIn(['planSheets', 0])
@@ -48,5 +78,7 @@ export {
   selectProjectId,
   selectProjectName,
   selectPlanSheets,
+  selectActors,
+  selectStages,
   selectDefaultPlanSheet,
 };

@@ -6,14 +6,16 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
+
+import { selectActors } from 'containers/App/selectors';
 
 export class ActorList extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const actors = this.props.actors;
-    window.globalactors = actors;
+    const actorIds = this.props.actorIds;
     let actorContent = '';
-    actors.forEach((actor) => {
-      actorContent = `${actorContent}${actor.name};`;
+    actorIds.forEach((actorId) => {
+      actorContent = `${actorContent}${this.props.actors[actorId._id].name};`; // eslint-disable-line no-underscore-dangle
     });
 
     return (
@@ -25,9 +27,16 @@ export class ActorList extends React.Component { // eslint-disable-line react/pr
 }
 
 ActorList.propTypes = {
-  actors: React.PropTypes.array,
+  actorIds: React.PropTypes.array,
+  actors: React.PropTypes.object,
   styleName: React.PropTypes.string,
 };
+
+const mapStateToProps = createSelector(
+  selectActors(),
+  (actors) => ({ actors })
+);
+
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -35,4 +44,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapDispatchToProps)(ActorList);
+export default connect(mapStateToProps, mapDispatchToProps)(ActorList);
