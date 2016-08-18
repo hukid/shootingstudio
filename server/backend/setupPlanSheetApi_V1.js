@@ -146,7 +146,7 @@ module.exports = (router) => {
   sceneRouter.post((req, res) => {
     const projectId = req.params.projectId;
     const planSheetId = req.params.planSheetId;
-    Project.findOne({ _id: projectId, 'planSheets._id': planSheetId }, (err, project) => {
+    Project.findOne({ _id: projectId, 'planSheets._id': planSheetId }, () => {
       res.json({ message: 'no planSheet found' });
     });
   });
