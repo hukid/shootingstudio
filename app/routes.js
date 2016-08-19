@@ -3,7 +3,6 @@
 // See http://blog.mxstbr.com/2016/01/react-apps-with-pages for more information
 // about the code splitting business
 // import { getHooks } from 'utils/hooks';
-import { getHooks } from './utils/hooks';
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
@@ -13,9 +12,9 @@ const loadModule = (cb) => (componentModule) => {
   cb(null, componentModule.default);
 };
 
-export default function createRoutes(store) {
+export default function createRoutes(store) { // eslint-disable-line no-unused-vars
   // Create reusable async injectors using getHooks factory
-  const { injectSagas } = getHooks(store);
+  // const { injectReducer, injectSagas } = getHooks(store);
 
   return [
     {
@@ -24,19 +23,14 @@ export default function createRoutes(store) {
       getComponent(nextState, cb) {
         const importModules = Promise.all([
           System.import('containers/HomePage'),
-          System.import('containers/HomePage/sagas'),
-          System.import('containers/PlanSheet/sagas'),
           // System.import('containers/SceneComposeForm/reducer'),
           // System.import('containers/SceneComposeForm/sagas'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([component, homePageSagas/* planSheetSagas, sceneComposeReducer, sceneComposeSagas */]) => {
+        importModules.then(([component/* sceneComposeReducer, sceneComposeSagas */]) => {
           // planSheet has to be exactly same as defined in PlanSheet/reducer
-          injectSagas(homePageSagas.default);
-
-          // injectSagas(planSheetSagas.default);
 
           // injectReducer('sceneCopmose', sceneComposeReducer.default);
           // injectSagas(sceneComposeSagas.default);

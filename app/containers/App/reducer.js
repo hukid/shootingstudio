@@ -10,8 +10,9 @@ import {
   PROJECT_LOADED,
 } from './constants';
 
+// This app state only represent one project
 const initialState = fromJS({
-  project_id: '',
+  projectId: '',
   name: '',
   actors: false,
   stages: false,
@@ -22,7 +23,7 @@ function appReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_PROJECT:
       return state
-        .set('project_id', '')
+        .set('projectId', '')
         .set('name', '')
         .set('actors', false)
         .set('stages', false)
@@ -30,11 +31,11 @@ function appReducer(state = initialState, action) {
     case PROJECT_LOADED:
       // console.log(JSON.stringify(action.scenes));
       return state
-        .set('project_id', action.project._id) // eslint-disable-line no-underscore-dangle
-        .set('name', action.project.name)
-        .set('actors', fromJS(action.project.actors))
-        .set('stages', fromJS(action.project.stages))
-        .set('planSheets', fromJS(action.project.planSheets));
+        .set('projectId', action.projectId)
+        .set('name', action.projectName)
+        .set('actors', action.actors)
+        .set('stages', action.stages)
+        .set('planSheets', action.planSheets);
     default:
       return state;
   }

@@ -15,9 +15,13 @@ export function loadProject() {
   };
 }
 
-export function projectLoaded(project) {
+export function projectLoaded(projectId, projectName, actors, stages, planSheets) {
   return {
     type: PROJECT_LOADED,
-    project,
+    projectId,
+    projectName,
+    actors,
+    stages,
+    planSheets,
   };
 }

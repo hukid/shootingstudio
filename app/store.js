@@ -7,6 +7,7 @@ import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
+import { projectSaga } from 'containers/App/sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 const devtools = window.devToolsExtension || (() => noop => noop);
@@ -47,5 +48,8 @@ export default function configureStore(initialState = {}, history) {
 
   // Initialize it with no other reducers
   store.asyncReducers = {};
+
+  // Run the App sagas
+  store.runSaga(projectSaga);
   return store;
 }
