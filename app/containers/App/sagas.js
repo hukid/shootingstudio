@@ -54,6 +54,21 @@ export function* projectSaga() {
 
     if (watcher.addScene) {
       console.log('projectSaga take ADD_SCENE'); // eslint-disable-line no-console
+      const actionData = watcher.addScene;
+      const requestURL = 'api/newScene';
+      const reuqestOptions = {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          stage: actionData.stage,
+          environment: actionData.environment,
+          actors: actionData.actors,
+        }),
+      };
+      yield call(request, requestURL, reuqestOptions);
     }
   }
 }
