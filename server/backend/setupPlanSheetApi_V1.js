@@ -142,12 +142,83 @@ module.exports = (router) => {
     });
   });
 
-  const sceneRouter = router.route('/scene');
+  // Define the scene REST APIs
+  const sceneRouter = router.route('/scene/:projectId/:planSheetId');
+
   sceneRouter.post((req, res) => {
     const projectId = req.params.projectId;
     const planSheetId = req.params.planSheetId;
-    Project.findOne({ _id: projectId, 'planSheets._id': planSheetId }, () => {
-      res.json({ message: 'no planSheet found' });
-    });
+
+    Project.findOne(
+      { _id: projectId, 'planSheets._id': planSheetId },
+      (err, project) => {
+        if (err) {
+          res.send(err);
+        }
+
+        let selectedPlanSheet = { message: 'no planSheet found' };
+        if (project && project.planSheets.length > 0) {
+          selectedPlanSheet = project.planSheets[0];
+          const newActors = req.body.actors.split(';');
+          const stageName = req.body.stage;
+          const environment = req.body.environment;
+
+          // Add the scene
+          const scene = new Scene();
+          scene.seq = selectedPlanSheet.scenes.length + 1;
+          scene.environment = environment;
+
+          // Set new actors
+          const existingActors = project.actors;
+          const existingActorsLength = existingActors.length;
+          for (let newActorIndex = 0; newActorIndex < newActors.length; newActorIndex++) {
+            const newActorName = newActors[newActorIndex];
+            let existingActorIndex = 0;
+            for (; existingActorIndex < existingActorsLength; existingActorIndex++) {
+              const existingActorName = existingActors[existingActorIndex].name;
+              if (newActorName === existingActorName) {
+                scene.actors.push(existingActors[existingActorIndex]._id); // eslint-disable-line no-underscore-dangle
+                break;
+              }
+            }
+
+            if (existingActorIndex === existingActorsLength) {
+              const newActor = new Actor({ name: newActorName });
+              existingActors.push(newActor);
+              scene.actors.push(newActor._id); // eslint-disable-line no-underscore-dangle
+            }
+          }
+
+          // Set new stage
+          const existingStages = project.stages;
+          const existingStagesLength = existingStages.length;
+          let existingStageIndex = 0;
+          for (; existingStageIndex < existingStagesLength; existingStageIndex++) {
+            const existingStageName = existingStages[existingStageIndex].name;
+            if (stageName === existingStageName) {
+              scene.stage_id = existingStages[existingStageIndex]._id; // eslint-disable-line no-underscore-dangle
+              break;
+            }
+          }
+
+          if (existingStageIndex === existingStagesLength) {
+            const newStage = new Stage({ name: stageName });
+            existingStages.push(newStage);
+            scene.stage_id = newStage._id; // eslint-disable-line no-underscore-dangle
+          }
+
+          selectedPlanSheet.scenes.push(scene);
+
+          project.save((saveErr) => {
+            if (saveErr) {
+              res.send(saveErr);
+            }
+
+            res.json(project);
+          });
+        } else {
+          res.json({ message: 'no project found' });
+        }
+      });
   });
 };

@@ -42,8 +42,8 @@ class SceneComposeForm extends React.Component { // eslint-disable-line react/pr
 
     if (!this.state.environment || this.state.environment.trim() === '') {
       newErrors.push('environment should not be empty');
-    } else if (this.state.environment !== '1' && this.state.environment !== '0') {
-      newErrors.push('environment can only be 0 or 1');
+    } else if (this.state.environment !== '1' && this.state.environment !== '2') {
+      newErrors.push('environment can only be 1 or 2');
     }
 
     if (!this.state.actors || this.state.actors.trim() === '') {
@@ -71,12 +71,12 @@ class SceneComposeForm extends React.Component { // eslint-disable-line react/pr
     let errorLabels = '';
     if (this.state.errors.length > 0) {
       errorLabels = this.state.errors.map((error, index) => (
-        <div key={`formError-${index}`}>{error}</div>
+        <div className="form-control" key={`formError-${index}`}>{error}</div>
       ));
     }
     return (
       <div>
-        <form onSubmit={this.onSubmit}>
+        <form className="form-group has-error" onSubmit={this.onSubmit}>
           {errorLabels}
           <label>场景:<input value={this.state.stage} onChange={this.handleChangeStage} /></label>
           <label>氛围:<input value={this.state.environment} onChange={this.handleChangeEnvironment} /></label>

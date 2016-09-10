@@ -21,13 +21,13 @@ const initialState = fromJS({
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-    case LOAD_PROJECT:
-      return state
-        .set('projectId', '')
-        .set('name', '')
-        .set('actors', false)
-        .set('stages', false)
-        .set('planSheets', false);
+    // case LOAD_PROJECT:
+    //   return state
+    //     .set('projectId', '')
+    //     .set('name', '')
+    //     .set('actors', false)
+    //     .set('stages', false)
+    //     .set('planSheets', false);
     case PROJECT_LOADED:
       // console.log(JSON.stringify(action.scenes));
       return state

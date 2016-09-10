@@ -22,20 +22,23 @@ import PlanSheet from 'containers/PlanSheet';
 import SceneComposeForm from 'containers/SceneComposeForm';
 
 class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor() {
+    super();
+    this.addScene = this.addScene.bind(this); // eslint-disable-line react/jsx-no-bind
+  }
 
   componentDidMount() {
     this.props.load();
   }
 
-  addScene(projectId, planSheetId, stage, environment, actors) {
-    this.props.addNewScene(projectId, planSheetId, stage, environment, actors);
+  addScene(stage, environment, actors) {
+    this.props.addNewScene(this.props.projectId, this.props.planSheet.toJS()._id, stage, environment, actors); // eslint-disable-line no-underscore-dangle
   }
 
   render() {
     let content = '<h2> Plan Sheet is Loading </h2>';
     if (this.props.planSheet) {
       const planSheet = this.props.planSheet.toJS();
-      this.addScene = this.addScene.bind(this, this.props.projectId, planSheet._id); // eslint-disable-line react/jsx-no-bind, no-underscore-dangle
       content = (
         <div>
           <PlanSheet planSheet={planSheet} stageDict={this.props.stages} actorDict={this.props.actors} />
